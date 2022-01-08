@@ -8,7 +8,7 @@ jobs:
     runs-on: ${{ matrix.runs-on }}
     strategy:
       matrix:
-        includes:
+        include:
           - target: x86_64-apple-darwin
             runs-on: [macos-latest, x64]
           - target: aarch64-apple-darwin
