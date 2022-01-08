@@ -1,0 +1,24 @@
+on: [push, pull_request]
+
+name: macOS tests
+
+jobs:
+  test:
+    name: Test Suite
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        target: [x86_64-apple-darwin, aarch64-apple-darwin, aarch64-apple-ios]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+          target: ${{ matrix.target }}
+      - uses: Swatinem/rust-cache@v1
+      - uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --features "desktop, ssr, router" --target ${{ matrix.target }}
